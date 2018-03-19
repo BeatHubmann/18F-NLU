@@ -7,6 +7,7 @@ This course presents topics in natural language processing with an emphasis on m
 - [Book: Deep Learning - Ian Goodfellow](http://www.deeplearningbook.org)
 - [Book: Neural Networks and Deep Learning - Michael Nielsen](http://neuralnetworksanddeeplearning.com)
 - [Book: Hands-on Machine Learning with Scikit-Learn and TensorFlow - Aurelien Geron](https://github.com/ageron/handson-ml)
+- [Book: TensorFlow Machine Learning Cookbook - Nick McClure](https://github.com/nfmcclure/tensorflow_cookbook)
 - [Documentation: TensorFlow - RNNs](https://www.tensorflow.org/tutorials/recurrent) 
 
 
