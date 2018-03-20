@@ -1,5 +1,5 @@
-# Large files in project directory
-project_1/data/
+# Large files in data directories
+**/data/*
 
 #
 # Created by https://www.gitignore.io/api/c,vim,c++,xcode,latex,linux,macos,python,windows,sublimetext,jupyternotebook
