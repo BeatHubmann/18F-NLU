@@ -3,7 +3,7 @@ This course presents topics in natural language processing with an emphasis on m
 
 ## Reference material
 
-- [Seminal paper: A Neural Probabilistic Language Model - Bengio et aL](http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
+- [Seminal paper: A Neural Probabilistic Language Model - Bengio et al](http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
 - [Blog post: Understanding LSTM Networks - Chris Olah](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - [Book: Deep Learning - Ian Goodfellow](http://www.deeplearningbook.org)
 - [Book: Neural Networks and Deep Learning - Michael Nielsen](http://neuralnetworksanddeeplearning.com)
