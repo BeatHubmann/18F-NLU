@@ -3,6 +3,7 @@ This course presents topics in natural language processing with an emphasis on m
 
 ## Reference material
 
+- [Current overview paper: An Analysis of Neural Language Modeling at Multiple Scales](https://arxiv.org/pdf/1803.08240.pdf)
 - [Seminal paper: A Neural Probabilistic Language Model - Bengio et al](http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
 - [Blog post: Understanding LSTM Networks - Chris Olah](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - [Book: Deep Learning - Ian Goodfellow](http://www.deeplearningbook.org)
