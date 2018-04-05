@@ -1,5 +1,6 @@
 # Large files in data directories
 **/data/*
+**/train/*
 
 # Run logs from TensorFlow
 **/runs/*
