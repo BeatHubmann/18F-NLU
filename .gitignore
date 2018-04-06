@@ -1,9 +1,7 @@
-# Large files in data directories
+# Large files in data, training, loggin, etc. directories
 **/data/*
-**/train/*
-
-# Run logs from TensorFlow
 **/runs/*
+**/checkpoints/*
 
 # Vocabulary dumps
 **/vocab/*
