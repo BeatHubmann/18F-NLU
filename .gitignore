@@ -3,6 +3,7 @@
 **/runs/*
 **/runs-exp-*/*
 **/checkpoints/*
+**/checkpoints-exp-*/*
 
 # Vocabulary dumps
 **/vocab/*
