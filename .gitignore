@@ -4,6 +4,7 @@
 **/runs-exp-*/*
 **/checkpoints/*
 **/checkpoints-exp-*/*
+**/*-checkpoints/*
 
 # Vocabulary dumps
 **/vocab/*
