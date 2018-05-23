@@ -1,6 +1,7 @@
 # Large files in data, training, loggin, etc. directories
 **/data/*
 **/runs/*
+**/summaries/*
 **/runs-exp-*/*
 **/checkpoints/*
 **/checkpoints-exp-*/*
