@@ -120,12 +120,13 @@ def get_test_data(test_file='./data/cloze/cloze_test_test__spring2016 - cloze_te
     sentences_4 = np.expand_dims(test['InputSentence4'].values, axis=1)
     quiz_1 = np.expand_dims(test['RandomFifthSentenceQuiz1'].values, axis=1)
     quiz_2 = np.expand_dims(test['RandomFifthSentenceQuiz2'].values, axis=1)
+    answers = np.expand_dims(test['AnswerRightEnding'].values, axis=1)
     quizzes = np.hstack((sentences_4, quiz_1, quiz_2))
     sentences = [s for quiz in quizzes for s in quiz]
     print('{} has {} quizzes with a total of {} sentences.'.format(test_file,
                                                                    len(quizzes),
                                                                    len(sentences)))
-    return sentences
+    return sentences, answers
 
 
 # In[ ]:
@@ -439,7 +440,7 @@ print('Loaded training stories.')
 
 
 print('Loading cloze story validation data...')
-validation_sentences, answers = get_val_data()
+validation_sentences, validation_answers = get_val_data()
 print('Loaded validation stories.')
 
 
@@ -447,7 +448,7 @@ print('Loaded validation stories.')
 
 
 print('Loading cloze story test data...')
-test_sentences = get_test_data()
+test_sentences, test_answers = get_test_data()
 print('Loaded test stories.')
 
 
@@ -640,7 +641,10 @@ print('Training finished.')
 # In[ ]:
 
 
+print('Checking for trained model at latest checkpoint...')
 checkpoint = tf.train.latest_checkpoint(SAVE_DIR)
+assert checkpoint is not None, 'No checkpoints found, check SAVE_DIR & README.txt'
+print('Found model {}.'.format(checkpoint))
 
 
 # In[ ]:
@@ -652,7 +656,7 @@ with tf.Session(graph=train_graph) as sess:
     saver = tf.train.Saver()
     saver.restore(sess, checkpoint)
     for valid_i, (valid_input, valid_mask, valid_target, valid_weight)     in enumerate(get_batches(validation_inputs, validation_masks, batch_size=3, n_sent_in_story=3,
-                             is_quiz=True, quiz_answers=answers, shuffle=False)):
+                             is_quiz=True, quiz_answers=validation_answers, shuffle=False)):
         scr = sess.run(scores,
                       {encoder_inputs: valid_input,
                        encoder_input_masks: valid_mask,
@@ -662,14 +666,40 @@ with tf.Session(graph=train_graph) as sess:
         cloze_pred = np.argmax(scr[0, 1:]) + 1
         cloze_preds.append(cloze_pred)
     cloze_preds = np.array(cloze_preds).reshape((-1, 1))
-cloze_score = np.mean((answers == cloze_preds))
-print('Checkpoint {}'.format(checkpoint))
+cloze_score = np.mean((validation_answers == cloze_preds))
+print('For checkpoint {}:'.format(checkpoint))
 print('Validation score: {:>3.2%}'.format(cloze_score))
 
 
 # In[ ]:
 
 
+# Only run at very end after training & when everything else is done
+print('Checking test score...')
+cloze_preds = []
+with tf.Session(graph=train_graph) as sess:
+    saver = tf.train.Saver()
+    saver.restore(sess, checkpoint)
+    for test_i, (test_input, test_mask, test_target, test_weight)     in enumerate(get_batches(test_inputs, test_masks, batch_size=3, n_sent_in_story=3,
+                             is_quiz=True, quiz_answers=test_answers, shuffle=False)):
+        scr = sess.run(scores,
+                      {encoder_inputs: test_input,
+                       encoder_input_masks: test_mask,
+                       encoder_targets: test_target,
+                       label_weights: test_weight,
+                       dropout_rate: 0})
+        cloze_pred = np.argmax(scr[0, 1:]) + 1
+        cloze_preds.append(cloze_pred)
+    cloze_preds = np.array(cloze_preds).reshape((-1, 1))
+cloze_score = np.mean((test_answers == cloze_preds))
+print('For checkpoint {}:'.format(checkpoint))
+print('Test score: {:>3.2%}'.format(cloze_score))
+
+
+# In[ ]:
+
+
+# Only run at very end after training & when everything else is done
 print('Generating NLU 2018 test predictions...')
 cloze_preds = []
 with tf.Session(graph=train_graph) as sess:
@@ -686,7 +716,7 @@ with tf.Session(graph=train_graph) as sess:
         cloze_pred = np.argmax(scr[0, 1:]) + 1
         cloze_preds.append(cloze_pred)
     cloze_preds = np.array(cloze_preds).reshape((-1, 1))
-output_file = 'NLU_test_preds.csv'
+output_file = 'NLU_2018_taest_preds.csv'
 np.savetxt(output_file, cloze_preds, fmt='%1u', delimiter=',')
 print('NLU 2018 test predictions written to {} - Bye!'.format(output_file))
 
